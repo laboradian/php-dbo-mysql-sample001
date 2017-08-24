@@ -92,17 +92,20 @@ try {
         <section class="sectControll">
           <section>
             <button type="button" id="btnAddRecords">レコードを作成する</button>
+            <i class="fa fa-spinner fa-spin fa-2x fa-fw" id="loadingAddRecords" hidden></i>
             <output id="outputAddRecords"></output>
           </section>
 
           <section>
             <button type="button" id="btnClearRecords">レコードを全て削除する</button>
+            <i class="fa fa-spinner fa-spin fa-2x fa-fw" id="loadingClearRecords" hidden></i>
             <output id="outputClearRecords"></output>
           </section>
         </section>
 
         <section>
           <button type="button" id="btnGetRecords">レコードを取得して表示する</button>
+            <i class="fa fa-spinner fa-spin fa-2x fa-fw" id="loadingGetRecords" hidden></i>
           <output id="outputGetRecords"></output>
         </section>
       </div>

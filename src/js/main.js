@@ -15,9 +15,10 @@ console.log('%c 🌈 Laboradian.com 🌈 %c http://laboradian.com ',
 window.onload = () => {
 
   $('#btnAddRecords').on('click', () => {
-    $('#outputAddRecords').html('<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>');
+    $('#loadingAddRecords').removeClass('hidden');
     fetch('?action-type=add', { method: 'GET' })
       .then((response) => {
+        $('#loadingAddRecords').addClass('hidden');
         if(response.ok) {
           $('#outputAddRecords').text('完了');
         } else {
@@ -27,9 +28,10 @@ window.onload = () => {
   });
 
   $('#btnClearRecords').on('click', () => {
-    $('#outputClearRecords').text('<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>');
+    $('#loadingClearRecords').removeClass('hidden');
     fetch('?action-type=clear', { method: 'GET' })
       .then((response) => {
+        $('#loadingClearRecords').addClass('hidden');
         if(response.ok) {
           $('#outputClearRecords').text('完了');
         } else {
@@ -39,9 +41,10 @@ window.onload = () => {
   });
 
   $('#btnGetRecords').on('click', () => {
-    $('#outputGetRecords').text('<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>');
+    $('#loadingGetRecords').removeClass('hidden');
     fetch('?action-type=get', { method: 'GET' })
       .then((response) => {
+        $('#loadingGetRecords').addClass('hidden');
         //console.log(response);
         if(response.ok) {
           const contentType = response.headers.get("content-type");

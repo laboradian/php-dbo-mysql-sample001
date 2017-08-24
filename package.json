@@ -1,5 +1,5 @@
 {
-  "name": "php-dbo-mysql-sample001",
+  "name": "php-pdo-mysql-sample001",
   "version": "1.0.0",
   "description": "",
   "main": "src/main.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laboradian/php-dbo-mysql-sample001"
+    "url": "git+https://github.com/laboradian/php-pdo-mysql-sample001"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/laboradian/php-dbo-mysql-sample001/issues"
+    "url": "https://github.com/laboradian/php-pdo-mysql-sample001/issues"
   },
-  "homepage": "https://github.com/laboradian/php-dbo-mysql-sample001#readme",
+  "homepage": "https://github.com/laboradian/php-pdo-mysql-sample001#readme",
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",

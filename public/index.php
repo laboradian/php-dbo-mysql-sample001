@@ -186,6 +186,10 @@ while ($row = $sth-&gt;fetchObject()) {
         <li><a href="http://php.net/manual/ja/book.pdo.php">PHP: PDO - Manual</a></li>
         <li><a href="https://laboradian.com/sec-php/#3_SQL">PHPのセキュリティ対策 – ラボラジアン</a></li>
     </ul>
+    <h2>ソースコード</h2>
+    <ul>
+        <li><a href="https://github.com/laboradian/php-pdo-mysql-sample001">laboradian/php-pdo-mysql-sample001</a></li>
+    </ul>
 
   </div>
 

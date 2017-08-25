@@ -85,7 +85,7 @@ try {
   </div>
 
 <?php if ($errorMessage != ''): ?>
-    <div class="alert alert-danger" role="alert"><?php echo e($errorMessage); ?></div>
+    <div class="alert alert-danger" role="alert"><?= e($errorMessage); ?></div>
 <?php endif; ?>
 
   <div class="panel panel-success">

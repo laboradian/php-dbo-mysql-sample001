@@ -15,6 +15,11 @@ CREATE TABLE `fruit` (
 
 ```
 
+Requirements
+----------
+
+- PHP 7
+
 
 参考
 -------

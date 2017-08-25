@@ -40,7 +40,6 @@ $dotenv->load();
 // APIの処理
 //------------------------
 try {
-
     $apiObj = new \App\Api();
 
     switch (filter_input(INPUT_POST, 'action-type')) {
@@ -81,7 +80,6 @@ try {
     default:
         //
     }
-
 } catch (PDOException $e) {
     $errorMessage = $e->getMessage();
     //$errorMessage = 'Error!';

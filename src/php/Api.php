@@ -29,7 +29,8 @@ class Api
             getenv('DB_CONNECTION') . ':host=' . getenv('DB_HOST') . ';dbname=' . getenv('DB_DATABASE') . ';charset=utf8',
             getenv('DB_USERNAME'),
             getenv('DB_PASSWORD'),
-            $options);
+            $options
+        );
     }
 
     public function addRecords()

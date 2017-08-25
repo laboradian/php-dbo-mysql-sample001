@@ -15,33 +15,31 @@ try {
 
     $apiObj = new \App\Api();
 
-    if (isset($_POST['action-type'])) {
-        switch ($_POST['action-type']) {
-        case 'add':
-            $apiObj->addRecords();
-            header('Content-type: application/json');
+    switch (filter_input(INPUT_POST, 'action-type')) {
+    case 'add':
+        $apiObj->addRecords();
+        header('Content-type: application/json');
+        echo json_encode(['result' => 'success']);
+        exit;
+        break;
+    case 'get':
+        $arrRowObj = $apiObj->getRecords();
+        header('Content-type: application/json');
+        echo json_encode([ 'records' => $arrRowObj ]);
+        exit;
+        break;
+    case 'clear':
+        $res = $apiObj->clearRecords();
+        header('Content-type: application/json');
+        if ($res === true) {
             echo json_encode(['result' => 'success']);
-            exit;
-            break;
-        case 'get':
-            $arrRowObj = $apiObj->getRecords();
-            header('Content-type: application/json');
-            echo json_encode([ 'records' => $arrRowObj ]);
-            exit;
-            break;
-        case 'clear':
-            $res = $apiObj->clearRecords();
-            header('Content-type: application/json');
-            if ($res === true) {
-                echo json_encode(['result' => 'success']);
-            } else {
-                echo json_encode(['result' => 'error']);
-            }
-            exit;
-            break;
-        default:
-            //
+        } else {
+            echo json_encode(['result' => 'error']);
         }
+        exit;
+        break;
+    default:
+        //
     }
 
 } catch (PDOException $e) {

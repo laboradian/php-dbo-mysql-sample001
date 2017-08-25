@@ -16,11 +16,27 @@ window.onload = () => {
 
   $('#btnAddRecords').on('click', () => {
     $('#loadingAddRecords').removeClass('hidden');
-    fetch('?action-type=add', { method: 'GET' })
+
+    const data = new FormData();
+    data.append('action-type', 'add');
+
+    fetch('', { method: 'POST', body: data })
       .then((response) => {
         $('#loadingAddRecords').addClass('hidden');
         if(response.ok) {
-          $('#outputAddRecords').text('完了');
+          const contentType = response.headers.get("content-type");
+          if(contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json().then((json) => {
+              // process your JSON further
+              if (json.result === 'success') {
+                $('#outputAddRecords').text('完了');
+              } else {
+                $('#outputAddRecords').text('失敗(サーバー側でエラー)');
+              }
+            });
+          } else {
+            $('#outputAddRecords').text('失敗(not json)');
+          }
         } else {
           $('#outputAddRecords').text('失敗');
         }
@@ -29,11 +45,27 @@ window.onload = () => {
 
   $('#btnClearRecords').on('click', () => {
     $('#loadingClearRecords').removeClass('hidden');
-    fetch('?action-type=clear', { method: 'GET' })
+
+    const data = new FormData();
+    data.append('action-type', 'clear');
+
+    fetch('', { method: 'POST', body: data })
       .then((response) => {
         $('#loadingClearRecords').addClass('hidden');
         if(response.ok) {
-          $('#outputClearRecords').text('完了');
+          const contentType = response.headers.get("content-type");
+          if(contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json().then((json) => {
+              // process your JSON further
+              if (json.result === 'success') {
+                $('#outputClearRecords').text('完了');
+              } else {
+                $('#outputClearRecords').text('失敗(サーバー側でエラー)');
+              }
+            });
+          } else {
+            $('#outputClearRecords').text('失敗(not json)');
+          }
         } else {
           $('#outputClearRecords').text('失敗');
         }
@@ -42,10 +74,13 @@ window.onload = () => {
 
   $('#btnGetRecords').on('click', () => {
     $('#loadingGetRecords').removeClass('hidden');
-    fetch('?action-type=get', { method: 'GET' })
+
+    const data = new FormData();
+    data.append('action-type', 'get');
+
+    fetch('', { method: 'POST', body: data })
       .then((response) => {
         $('#loadingGetRecords').addClass('hidden');
-        //console.log(response);
         if(response.ok) {
           const contentType = response.headers.get("content-type");
           if(contentType && contentType.indexOf("application/json") !== -1) {

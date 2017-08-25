@@ -15,12 +15,12 @@ try {
 
     $apiObj = new \App\Api();
 
-    if (isset($_GET['action-type'])) {
-        switch ($_GET['action-type']) {
+    if (isset($_POST['action-type'])) {
+        switch ($_POST['action-type']) {
         case 'add':
             $apiObj->addRecords();
             header('Content-type: application/json');
-            echo json_encode([]);
+            echo json_encode(['result' => 'success']);
             exit;
             break;
         case 'get':
@@ -32,7 +32,11 @@ try {
         case 'clear':
             $res = $apiObj->clearRecords();
             header('Content-type: application/json');
-            echo json_encode($res);
+            if ($res === true) {
+                echo json_encode(['result' => 'success']);
+            } else {
+                echo json_encode(['result' => 'error']);
+            }
             exit;
             break;
         default:

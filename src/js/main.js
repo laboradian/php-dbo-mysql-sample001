@@ -19,8 +19,9 @@ window.onload = () => {
 
     const data = new FormData();
     data.append('action-type', 'add');
+    data.append('csrf_token', $('#csrf_token').val());
 
-    fetch('', { method: 'POST', body: data })
+    fetch('', { method: 'POST', body: data, credentials: 'same-origin' })
       .then((response) => {
         $('#loadingAddRecords').addClass('hidden');
         if(response.ok) {
@@ -48,8 +49,9 @@ window.onload = () => {
 
     const data = new FormData();
     data.append('action-type', 'clear');
+    data.append('csrf_token', $('#csrf_token').val());
 
-    fetch('', { method: 'POST', body: data })
+    fetch('', { method: 'POST', body: data, credentials: 'same-origin' })
       .then((response) => {
         $('#loadingClearRecords').addClass('hidden');
         if(response.ok) {
@@ -77,21 +79,26 @@ window.onload = () => {
 
     const data = new FormData();
     data.append('action-type', 'get');
+    data.append('csrf_token', $('#csrf_token').val());
 
-    fetch('', { method: 'POST', body: data })
+    fetch('', { method: 'POST', body: data, credentials: 'same-origin' })
       .then((response) => {
         $('#loadingGetRecords').addClass('hidden');
         if(response.ok) {
           const contentType = response.headers.get("content-type");
           if(contentType && contentType.indexOf("application/json") !== -1) {
             return response.json().then((json) => {
-              // process your JSON further
-              let output = '<table class="table table-bordered"><tbody><tr><th>name</th><th>colour</th><th>calories</th></tr>';
-              json.records.forEach((record) => {
-                output += `<tr><td>${e(record.name)}</td><td>${e(record.colour)}</td><td class="num">${e(record.calories)}</td></tr>`;
-              });
-              output += '</tbody></table>';
-              $('#outputGetRecords').html(output);
+              if (json.result === 'success') {
+                // process your JSON further
+                let output = '<table class="table table-bordered"><tbody><tr><th>name</th><th>colour</th><th>calories</th></tr>';
+                json.records.forEach((record) => {
+                  output += `<tr><td>${e(record.name)}</td><td>${e(record.colour)}</td><td class="num">${e(record.calories)}</td></tr>`;
+                });
+                output += '</tbody></table>';
+                $('#outputGetRecords').html(output);
+              } else {
+                $('#outputGetRecords').text('失敗(サーバー側でエラー)');
+              }
             });
           } else {
             $('#outputGetRecords').text('失敗(not json)');

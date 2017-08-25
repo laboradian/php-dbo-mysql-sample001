@@ -1,40 +1,80 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-function e($str) {
+//------------------------
+// ヘルパー関数
+//------------------------
+function e($str)
+{
     return htmlspecialchars($str, ENT_QUOTES);
 }
 
+function validateCsrfToken()
+{
+    if (filter_input(INPUT_POST, 'csrf_token') === $_SESSION['csrf_token']) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//------------------------
+// セッションの処理
+//------------------------
+session_start();
+
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = base64_encode(random_bytes(64));
+}
+
+//------------------------
+// 値の準備
+//------------------------
 $errorMessage = '';
 $output = '';
 
 $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
 $dotenv->load();
 
+//------------------------
+// APIの処理
+//------------------------
 try {
 
     $apiObj = new \App\Api();
 
     switch (filter_input(INPUT_POST, 'action-type')) {
     case 'add':
-        $apiObj->addRecords();
         header('Content-type: application/json');
-        echo json_encode(['result' => 'success']);
+        if (validateCsrfToken()) {
+            $apiObj->addRecords();
+            echo json_encode(['result' => 'success']);
+        } else {
+            echo json_encode(['result' => 'fail']);
+        }
         exit;
         break;
     case 'get':
-        $arrRowObj = $apiObj->getRecords();
         header('Content-type: application/json');
-        echo json_encode([ 'records' => $arrRowObj ]);
+        if (validateCsrfToken()) {
+            $arrRowObj = $apiObj->getRecords();
+            echo json_encode(['result' => 'success', 'records' => $arrRowObj]);
+        } else {
+            echo json_encode(['result' => 'fail']);
+        }
         exit;
         break;
     case 'clear':
-        $res = $apiObj->clearRecords();
         header('Content-type: application/json');
-        if ($res === true) {
-            echo json_encode(['result' => 'success']);
+        if (validateCsrfToken()) {
+            $res = $apiObj->clearRecords();
+            if ($res === true) {
+                echo json_encode(['result' => 'success']);
+            } else {
+                echo json_encode(['result' => 'error']);
+            }
         } else {
-            echo json_encode(['result' => 'error']);
+            echo json_encode(['result' => 'fail']);
         }
         exit;
         break;
@@ -107,8 +147,9 @@ try {
 
         <section>
           <button type="button" id="btnGetRecords">レコードを取得して表示する</button>
-            <i class="fa fa-spinner fa-spin fa-2x fa-fw" id="loadingGetRecords" hidden></i>
+          <i class="fa fa-spinner fa-spin fa-2x fa-fw" id="loadingGetRecords" hidden></i>
           <output id="outputGetRecords"></output>
+          <input type="hidden" id="csrf_token" value="<?= e($_SESSION['csrf_token']); ?>" />
         </section>
       </div>
 
